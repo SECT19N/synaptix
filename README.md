@@ -1,4 +1,4 @@
-# ⚡ Snapticks
+# ⚡ Synaptix
 
 > A lightweight, native neural network visualizer and student verification tool — built entirely in Rust.
 
@@ -9,9 +9,9 @@
 
 ---
 
-## What is Snapticks?
+## What is Synaptix?
 
-Snapticks lets you **build, configure, and train artificial neural networks visually** — without the overhead of PyTorch or TensorFlow. It is aimed squarely at students who want to:
+Synaptix lets you **build, configure, and train artificial neural networks visually** — without the overhead of PyTorch or TensorFlow. It is aimed squarely at students who want to:
 
 - Verify manual forward pass and backpropagation calculations
 - Build intuition for how neural networks actually learn
@@ -85,8 +85,8 @@ sudo pacman -S --needed base-devel pkg-config libx11 libxcb libxkbcommon mesa gt
 ### Build & Run
 
 ```bash
-git clone https://github.com/yourusername/snapticks
-cd snapticks
+git clone https://github.com/SECT19N/synaptix
+cd synaptix
 cargo run
 ```
 
@@ -109,7 +109,7 @@ See [ROADMAP.md](./ROADMAP.md) for the full phased development plan.
 
 ## Contributing
 
-Snapticks is open source and welcomes contributions. Whether you are a Rust learner, a student, or an ML enthusiast — there is something here for you.
+Synaptix is open source and welcomes contributions. Whether you are a Rust learner, a student, or an ML enthusiast — there is something here for you.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
