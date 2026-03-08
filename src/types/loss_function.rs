@@ -7,7 +7,7 @@ pub enum LossFunction {
 }
 
 impl LossFunction {
-    fn label(&self) -> &str {
+    pub fn label(&self) -> &str {
         match self {
             LossFunction::MSE => "MSE",
             LossFunction::BinaryCrossEntropy => "Binary Cross Entropy",

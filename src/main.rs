@@ -1,193 +1,30 @@
 use eframe::egui;
 use egui::{Color32, CornerRadius, FontId, RichText, Stroke, Vec2};
 
+mod structs;
+mod types;
+
+use crate::structs::*;
+use crate::types::*;
+
 fn main() -> eframe::Result<()> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_title("Snapticks")
+            .with_title("Synaptix")
             .with_inner_size([1200.0, 780.0])
             .with_min_inner_size([900.0, 600.0]),
         ..Default::default()
     };
 
     eframe::run_native(
-        "Snapticks",
+        "Synaptix",
         options,
         Box::new(|cc| {
             // Set a dark theme with custom colors
             cc.egui_ctx.set_visuals(dark_visuals());
-            Ok(Box::new(SnaptickApp::default()))
+            Ok(Box::new(SynaptixApp::default()))
         }),
     )
-}
-
-// ─── App State ────────────────────────────────────────────────────────────────
-
-#[derive(Debug, Clone, PartialEq)]
-enum ActiveTab {
-    Build,
-    Train,
-    Inspect,
-}
-
-impl Default for ActiveTab {
-    fn default() -> Self {
-        ActiveTab::Build
-    }
-}
-
-#[derive(Debug, Clone)]
-struct LayerConfig {
-    neurons: usize,
-    activation: ActivationFn,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-enum ActivationFn {
-    ReLU,
-    LeakyReLU,
-    Sigmoid,
-    Tanh,
-    Softmax,
-    Linear,
-    GELU,
-    Swish,
-    Mish,
-    SELU,
-    ELU,
-}
-
-impl ActivationFn {
-    fn label(&self) -> &str {
-        match self {
-            ActivationFn::ReLU => "ReLU",
-            ActivationFn::LeakyReLU => "Leaky ReLU",
-            ActivationFn::Sigmoid => "Sigmoid",
-            ActivationFn::Tanh => "Tanh",
-            ActivationFn::Softmax => "Softmax",
-            ActivationFn::Linear => "Linear",
-            ActivationFn::GELU => "GELU",
-            ActivationFn::Swish => "Swish",
-            ActivationFn::Mish => "Mish",
-            ActivationFn::SELU => "SELU",
-            ActivationFn::ELU => "ELU",
-        }
-    }
-
-    fn all() -> Vec<ActivationFn> {
-        vec![
-            ActivationFn::ReLU,
-            ActivationFn::LeakyReLU,
-            ActivationFn::Sigmoid,
-            ActivationFn::Tanh,
-            ActivationFn::Softmax,
-            ActivationFn::Linear,
-            ActivationFn::GELU,
-            ActivationFn::Swish,
-            ActivationFn::Mish,
-            ActivationFn::SELU,
-            ActivationFn::ELU,
-        ]
-    }
-}
-
-#[derive(Debug, Clone, PartialEq)]
-enum LossFn {
-    MSE,
-    BinaryCrossEntropy,
-    CategoricalCrossEntropy,
-    Huber,
-}
-
-impl LossFn {
-    fn label(&self) -> &str {
-        match self {
-            LossFn::MSE => "Mean Squared Error",
-            LossFn::BinaryCrossEntropy => "Binary Cross-Entropy",
-            LossFn::CategoricalCrossEntropy => "Categorical Cross-Entropy",
-            LossFn::Huber => "Huber Loss",
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq)]
-enum LrScheduler {
-    Constant,
-    StepDecay,
-    ExponentialDecay,
-    CosineAnnealing,
-    ReduceOnPlateau,
-}
-
-impl LrScheduler {
-    fn label(&self) -> &str {
-        match self {
-            LrScheduler::Constant => "Constant",
-            LrScheduler::StepDecay => "Step Decay",
-            LrScheduler::ExponentialDecay => "Exponential Decay",
-            LrScheduler::CosineAnnealing => "Cosine Annealing",
-            LrScheduler::ReduceOnPlateau => "Reduce on Plateau",
-        }
-    }
-}
-
-#[derive(Debug)]
-struct SnaptickApp {
-    // Navigation
-    active_tab: ActiveTab,
-
-    // Network architecture config
-    input_count: usize,
-    output_count: usize,
-    hidden_layers: Vec<LayerConfig>,
-
-    // Training config
-    learning_rate: f64,
-    epochs: usize,
-    batch_size: usize,
-    loss_fn: LossFn,
-    lr_scheduler: LrScheduler,
-
-    // Training state (placeholders for now)
-    is_training: bool,
-    current_epoch: usize,
-    loss_history: Vec<f32>,
-
-    // Dataset
-    dataset_path: Option<String>,
-
-    // Inspect panel
-    inspect_inputs: Vec<f64>,
-}
-
-impl Default for SnaptickApp {
-    fn default() -> Self {
-        Self {
-            active_tab: ActiveTab::Build,
-            input_count: 2,
-            output_count: 1,
-            hidden_layers: vec![
-                LayerConfig {
-                    neurons: 4,
-                    activation: ActivationFn::ReLU,
-                },
-                LayerConfig {
-                    neurons: 4,
-                    activation: ActivationFn::ReLU,
-                },
-            ],
-            learning_rate: 0.01,
-            epochs: 100,
-            batch_size: 32,
-            loss_fn: LossFn::MSE,
-            lr_scheduler: LrScheduler::Constant,
-            is_training: false,
-            current_epoch: 0,
-            loss_history: vec![],
-            dataset_path: None,
-            inspect_inputs: vec![0.0, 0.0],
-        }
-    }
 }
 
 // ─── Visuals ──────────────────────────────────────────────────────────────────
@@ -219,7 +56,7 @@ const DANGER: Color32 = Color32::from_rgb(220, 80, 80);
 
 // ─── App impl ─────────────────────────────────────────────────────────────────
 
-impl eframe::App for SnaptickApp {
+impl eframe::App for SynaptixApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.render_topbar(ctx);
         self.render_left_panel(ctx);
@@ -228,7 +65,7 @@ impl eframe::App for SnaptickApp {
     }
 }
 
-impl SnaptickApp {
+impl SynaptixApp {
     // ── Top bar ───────────────────────────────────────────────────────────────
     fn render_topbar(&mut self, ctx: &egui::Context) {
         egui::TopBottomPanel::top("topbar")
@@ -382,7 +219,7 @@ impl SnaptickApp {
                                 .selected_text(layer.activation.label())
                                 .width(130.0)
                                 .show_ui(ui, |ui| {
-                                    for act in ActivationFn::all() {
+                                    for act in ActivationFunction::all() {
                                         let label = act.label().to_string();
                                         ui.selectable_value(&mut layer.activation, act, label);
                                     }
@@ -414,7 +251,7 @@ impl SnaptickApp {
         {
             self.hidden_layers.push(LayerConfig {
                 neurons: 4,
-                activation: ActivationFn::ReLU,
+                activation: ActivationFunction::ReLU,
             });
         }
 
@@ -422,16 +259,19 @@ impl SnaptickApp {
         section_header(ui, "Loss Function");
 
         egui::ComboBox::from_id_salt("loss_fn")
-            .selected_text(self.loss_fn.label())
+            .selected_text(self.loss_function.label())
             .width(ui.available_width())
             .show_ui(ui, |ui| {
                 for (loss, label) in [
-                    (LossFn::MSE, "Mean Squared Error"),
-                    (LossFn::BinaryCrossEntropy, "Binary Cross-Entropy"),
-                    (LossFn::CategoricalCrossEntropy, "Categorical Cross-Entropy"),
-                    (LossFn::Huber, "Huber Loss"),
+                    (LossFunction::MSE, "Mean Squared Error"),
+                    (LossFunction::BinaryCrossEntropy, "Binary Cross-Entropy"),
+                    (
+                        LossFunction::CategoricalCrossEntropy,
+                        "Categorical Cross-Entropy",
+                    ),
+                    (LossFunction::Huber, "Huber Loss"),
                 ] {
-                    ui.selectable_value(&mut self.loss_fn, loss, label);
+                    ui.selectable_value(&mut self.loss_function, loss, label);
                 }
             });
     }
@@ -816,7 +656,7 @@ impl SnaptickApp {
                     ui.separator();
 
                     ui.label(
-                        RichText::new(format!("Loss: {}", self.loss_fn.label()))
+                        RichText::new(format!("Loss: {}", self.loss_function.label()))
                             .font(FontId::proportional(11.0))
                             .color(TEXT_DIM),
                     );

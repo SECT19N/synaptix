@@ -1,24 +1,27 @@
+use crate::structs::*;
+use crate::types::*;
+
 #[derive(Debug)]
 pub struct SynaptixApp {
-    active_tab: ActiveTab,
+    pub active_tab: ActiveTab,
 
-    input_count: usize,
-    output_count: usize,
-    hidden_layers: Vec<LayerConfig>,
+    pub input_count: usize,
+    pub output_count: usize,
+    pub hidden_layers: Vec<LayerConfig>,
 
-    learning_rate: f64,
-    epochs: usize,
-    batch_size: usize,
-    loss_function: LossFunction,
-    lr_scheduler: LrScheduler,
+    pub learning_rate: f64,
+    pub epochs: usize,
+    pub batch_size: usize,
+    pub loss_function: LossFunction,
+    pub lr_scheduler: LrScheduler,
 
-    is_training: bool,
-    current_epoch: usize,
-    loss_history: Vec<f64>,
+    pub is_training: bool,
+    pub current_epoch: usize,
+    pub loss_history: Vec<f64>,
 
-    dataset_path: Option<String>,
+    pub dataset_path: Option<String>,
 
-    inspect_inputs: Vec<f64>,
+    pub inspect_inputs: Vec<f64>,
 }
 
 impl Default for SynaptixApp {

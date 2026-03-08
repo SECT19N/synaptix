@@ -14,7 +14,7 @@ pub enum ActivationFunction {
 }
 
 impl ActivationFunction {
-    fn label(&self) -> &str {
+    pub fn label(&self) -> &str {
         match self {
             ActivationFunction::ReLU => "ReLU",
             ActivationFunction::LeakyReLU => "LeakyReLU",
@@ -30,7 +30,7 @@ impl ActivationFunction {
         }
     }
 
-    fn all() -> Vec<ActivationFunction> {
+    pub fn all() -> Vec<ActivationFunction> {
         vec![
             ActivationFunction::ReLU,
             ActivationFunction::LeakyReLU,

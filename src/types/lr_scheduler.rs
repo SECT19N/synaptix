@@ -8,7 +8,7 @@ pub enum LrScheduler {
 }
 
 impl LrScheduler {
-    fn label(&self) -> &str {
+    pub fn label(&self) -> &str {
         match self {
             LrScheduler::Constant => "Constant",
             LrScheduler::StepDecay => "Step Decay",
