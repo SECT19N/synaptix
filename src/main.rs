@@ -1,8 +1,12 @@
 mod app;
+mod neural;
 mod structs;
 mod theme;
 mod types;
 mod ui;
+
+#[cfg(test)]
+mod tests;
 
 use crate::theme::dark_visuals;
 use app::SynaptixApp;
