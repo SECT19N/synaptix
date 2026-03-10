@@ -1,6 +1,6 @@
 use crate::types::LossFunction;
 
-pub fn compute_loss(pred: &[f64], target: &[f64], loss_function: LossFunction) -> f64 {
+pub fn compute_loss(pred: &[f64], target: &[f64], loss_function: &LossFunction) -> f64 {
     match loss_function {
         LossFunction::MSE => mse(pred, target),
         LossFunction::BinaryCrossEntropy => binary_cross_entropy(pred, target),
@@ -9,7 +9,7 @@ pub fn compute_loss(pred: &[f64], target: &[f64], loss_function: LossFunction) -
     }
 }
 
-pub fn compute_loss_grad(pred: &[f64], target: &[f64], loss_function: LossFunction) -> Vec<f64> {
+pub fn compute_loss_grad(pred: &[f64], target: &[f64], loss_function: &LossFunction) -> Vec<f64> {
     assert_eq!(
         pred.len(),
         target.len(),
